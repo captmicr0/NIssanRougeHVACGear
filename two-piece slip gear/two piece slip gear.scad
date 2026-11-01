@@ -139,12 +139,10 @@ module gear() {
                 // Bottom pocket configuration
                 if (!no_bottom_pocket) {
                     // Option 1: Standard bottom pocket cutout
-                    translate()
-                        cylinder(d = bottom_pocket_dia, h = bottom_pocket_depth);
+                    cylinder(d = bottom_pocket_dia, h = bottom_pocket_depth);
                 } else {
                     // Option 2: Full gear height reduction cutout
-                    translate()
-                        cylinder(d = gear_outer_dia + 2 * tooth_height, h = bottom_pocket_depth);
+                    cylinder(d = gear_outer_dia + 2 * tooth_height, h = bottom_pocket_depth);
                 }
             }
             
@@ -172,15 +170,14 @@ module gear() {
 // Standalone bottom shaft component
 module bottom_shaft() {
     if (separate_bottom_shaft) {
-        difference() {
-            // Main shaft geometry
-            translate([0, 0, bottom_pocket_depth - bottom_shaft_height])
+        translate([0, 0, bottom_pocket_depth - bottom_shaft_height])
+            difference() {
+                // Main shaft geometry
                 cylinder(d = bottom_shaft_dia, h = bottom_shaft_height);
-            
-            // Internal alignment rod channel
-            translate([0, 0, bottom_pocket_depth - bottom_shaft_height])
+                
+                // Internal alignment rod channel
                 cylinder(d = metal_rod_dia, h = bottom_shaft_height);
-        }
+            }
     }
 }
 
@@ -226,8 +223,7 @@ module female() {
                         for (a = [30 : 60 : 330]) {
                             rotate([0, 0, a])
                                 translate([hex_base_flats/2, 0, hex_height/2])
-                                    rotate()
-                                        cube([groove_size, groove_size, hex_height + 5], center=true);
+                                    cube([groove_size, groove_size, hex_height + 5], center=true);
                         }
                     }
                     // Structural reinforcement sleeve
@@ -274,8 +270,8 @@ space_out = false;
 group() {
     translate([space_out ? -25 : 0, 0, 0]) gear();
     if (separate_bottom_shaft) { translate([space_out ? -25 : 0, space_out ? -25 : 0, 0]) bottom_shaft(); }
-    translate() male();
-    translate() translate([space_out ? 25 : 0, 0, 0]) female();
+    male();
+    translate([space_out ? 25 : 0, 0, 0]) female();
     translate([0,  -25, 0]) spacer();
     translate([15, -25, 0]) spacer();
 }
